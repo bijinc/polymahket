@@ -40,11 +40,11 @@ async function run() {
 
   const buyThreshold = asNumber("BUY_THRESHOLD", 0.5);
   const orderSize = asNumber("ORDER_SIZE", 5);
-  const tickSize = process.env.POLYMARKET_TICK_SIZE ?? "0.001";
-  const tickSizeNumber = Number(tickSize);
+  const tickSizeNumber = asNumber("POLYMARKET_TICK_SIZE", 0.001);
   if (!Number.isFinite(tickSizeNumber) || tickSizeNumber <= 0) {
     throw new Error("POLYMARKET_TICK_SIZE must be a positive number");
   }
+  const tickSize = `${tickSizeNumber}`;
   const negRisk = asBoolean("POLYMARKET_NEG_RISK", false);
   const dryRun = asBoolean("DRY_RUN", true);
 
@@ -63,7 +63,7 @@ async function run() {
     throw new Error(`No asks available in order book for token ${tokenID}`);
   }
 
-  const bestAsk = Number(orderBook.asks[0]?.price);
+  const bestAsk = Number(orderBook.asks[0].price);
   if (!Number.isFinite(bestAsk)) {
     throw new Error(`Invalid best ask price in order book for token ${tokenID}`);
   }
