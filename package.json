@@ -1,0 +1,14 @@
+{
+  "name": "polymahket",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "node /tmp/workspace/bijinc/polymahket/agent.js"
+  },
+  "dependencies": {
+    "@ethersproject/wallet": "^5.8.0",
+    "@polymarket/clob-client": "^5.8.1",
+    "dotenv": "^16.4.5"
+  }
+}
