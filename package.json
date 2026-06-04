@@ -1,10 +1,10 @@
 {
-  "name": "polymahket",
+  "name": "polymarket-trading-agent",
   "version": "1.0.0",
   "private": true,
   "type": "module",
   "scripts": {
-    "start": "node /tmp/workspace/bijinc/polymahket/agent.js"
+    "start": "node ./agent.js"
   },
   "dependencies": {
     "@ethersproject/wallet": "^5.8.0",

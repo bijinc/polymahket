@@ -1,11 +1,10 @@
-# polymahket
+# polymarket trading agent
 
 Minimal Polymarket trading agent using the Polymarket SDK (`@polymarket/clob-client`).
 
 ## Setup
 
 ```bash
-cd /tmp/workspace/bijinc/polymahket
 npm install
 cp .env.example .env
 ```
