@@ -41,6 +41,10 @@ async function run() {
   const buyThreshold = asNumber("BUY_THRESHOLD", 0.5);
   const orderSize = asNumber("ORDER_SIZE", 5);
   const tickSize = process.env.POLYMARKET_TICK_SIZE ?? "0.001";
+  const tickSizeNumber = Number(tickSize);
+  if (!Number.isFinite(tickSizeNumber) || tickSizeNumber <= 0) {
+    throw new Error("POLYMARKET_TICK_SIZE must be a positive number");
+  }
   const negRisk = asBoolean("POLYMARKET_NEG_RISK", false);
   const dryRun = asBoolean("DRY_RUN", true);
 
@@ -51,10 +55,17 @@ async function run() {
   const client = new ClobClient(host, chainId, signer, creds, signatureType, funder);
 
   const orderBook = await client.getOrderBook(tokenID);
-  const bestAsk = Number(orderBook?.asks?.[0]?.price);
+  if (!Array.isArray(orderBook?.asks)) {
+    throw new Error("Order book response did not include asks");
+  }
 
+  if (orderBook.asks.length === 0) {
+    throw new Error(`No asks available in order book for token ${tokenID}`);
+  }
+
+  const bestAsk = Number(orderBook.asks[0]?.price);
   if (!Number.isFinite(bestAsk)) {
-    throw new Error("Could not determine best ask from order book");
+    throw new Error(`Invalid best ask price in order book for token ${tokenID}`);
   }
 
   if (bestAsk > buyThreshold) {
